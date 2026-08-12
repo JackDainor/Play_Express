@@ -3,107 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deja tu reseña | JACK GAME</title>
+    <title>Deja tu reseña | ADM JACK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Poppins:wght@600&amp;display=swap');
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
-            background: linear-gradient(180deg, #0a0a0a, #1a1a2e);
         }
         
         .brand-font {
             font-family: 'Poppins', system_ui, sans-serif;
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .star {
-            font-size: 2.2rem;
+            font-size: 1.75rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.2s;
         }
         
         .star:hover,
         .star.active {
             color: #ff6b00;
-            transform: scale(1.15);
+        }
+
+        .review-card {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
-<body class="min-h-screen text-white">
-
-    <!-- Navbar -->
+<body class="bg-zinc-950 text-white">
+    
+    <!-- NAVBAR -->
     <nav class="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-11 h-11 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center">
-                    <i class="fa-solid fa-gamepad text-white text-2xl"></i>
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-10">
+            <div class="flex items-center justify-between py-5">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-gamepad text-white text-2xl"></i>
+                    </div>
+                    <a href="adm-jack-home.html" class="brand-font text-3xl font-bold tracking-tighter">ADM JACK</a>
                 </div>
-                <a href="adm-jack-home.html" class="brand-font text-3xl font-bold tracking-tighter">JACK GAME</a>
+
+                <div class="flex items-center gap-x-4">
+                    <a href="adm-jack-home.html" class="hidden md:block text-sm hover:text-orange-400">Volver al inicio</a>
+                    <a href="torneos-freefire.html" class="hidden md:block text-sm hover:text-orange-400">Torneos</a>
+                    <button onclick="contactarWhatsApp()" 
+                            class="flex items-center gap-x-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl transition-all">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span class="hidden md:inline">WhatsApp</span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-2xl mx-auto px-6 py-16">
-        <div class="text-center mb-12">
-            <h1 class="text-5xl font-bold mb-4">¿Qué tal tu experiencia?</h1>
-            <p class="text-zinc-400 text-lg">Tu opinión nos ayuda a mejorar. ¡Cuéntanos cómo te fue con nuestras recargas en juegos o cuentas de streaming!</p>
-        </div>
+    <!-- HERO -->
+    <section class="max-w-screen-2xl mx-auto px-6 md:px-10 pt-10 pb-8 text-center">
+        <h1 class="text-5xl md:text-6xl tracking-tighter font-bold">Deja tu reseña</h1>
+        <p class="mt-4 text-xl text-zinc-300 max-w-md mx-auto">
+            Tu opinión nos ayuda a mejorar. ¡Cuéntanos cómo te fue con nuestras recargas en juegos o cuentas de streaming!
+        </p>
+    </section>
 
-        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10">
-            <form id="review-form" action="https://formspree.io/f/meewnwbz" method="POST">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm mb-2">Tu nombre</label>
-                        <input type="text" name="nombre" required class="w-full bg-zinc-800 border border-zinc-600 rounded-2xl px-5 py-4 focus:border-orange-500">
+    <!-- FORMULARIO -->
+    <section class="max-w-lg mx-auto px-6">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8">
+            <form id="review-form" onsubmit="submitReview(event)">
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-2">Tu nombre</label>
+                    <input type="text" id="name" required class="w-full bg-zinc-800 border border-zinc-600 px-4 py-3 rounded-2xl text-white placeholder:text-zinc-400 focus:outline-none focus:border-orange-500" placeholder="Ej: Jack Dainor">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-sm font-medium mb-2">País</label>
+                    <input type="text" id="country" required class="w-full bg-zinc-800 border border-zinc-600 px-4 py-3 rounded-2xl text-white placeholder:text-zinc-400 focus:outline-none focus:border-orange-500" placeholder="Ej: Bolivia Santa Cruz">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">¿Cómo calificarías tu experiencia?</label>
+                    <div class="flex items-center gap-x-1" id="star-rating">
+                        <i class="fa-solid fa-star star text-zinc-600" data-value="1"></i>
+                        <i class="fa-solid fa-star star text-zinc-600" data-value="2"></i>
+                        <i class="fa-solid fa-star star text-zinc-600" data-value="3"></i>
+                        <i class="fa-solid fa-star star text-zinc-600" data-value="4"></i>
+                        <i class="fa-solid fa-star star text-zinc-600" data-value="5"></i>
                     </div>
-                    <div>
-                        <label class="block text-sm mb-2">País</label>
-                        <input type="text" name="pais" required class="w-full bg-zinc-800 border border-zinc-600 rounded-2xl px-5 py-4 focus:border-orange-500">
-                    </div>
+                    <input type="hidden" id="rating" value="5" required>
+                    <p class="text-xs text-zinc-400 mt-1" id="rating-text">5 estrellas - Excelente</p>
                 </div>
 
-                <div class="mt-6">
-                    <label class="block text-sm mb-3">Calificación</label>
-                    <div class="flex justify-center gap-3" id="star-rating"></div>
-                    <input type="hidden" name="calificacion" id="rating" value="5">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Tu opinión (mínimo 20 caracteres)</label>
+                    <textarea id="opinion" rows="4" required minlength="20" class="w-full bg-zinc-800 border border-zinc-600 px-4 py-3 rounded-2xl text-white placeholder:text-zinc-400 focus:outline-none focus:border-orange-500 resize-none" placeholder="Cuéntanos qué te gustó o cómo podemos mejorar..."></textarea>
                 </div>
 
-                <div class="mt-8">
-                    <label class="block text-sm mb-2">Tu opinión</label>
-                    <textarea name="opinion" rows="5" required class="w-full bg-zinc-800 border border-zinc-600 rounded-3xl px-5 py-4 focus:border-orange-500"></textarea>
-                </div>
-
-                <button type="submit" class="mt-8 w-full py-5 bg-gradient-to-r from-orange-500 to-red-600 font-bold text-xl rounded-3xl hover:scale-105 transition-all">
-                    Enviar mi reseña
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 font-bold text-lg rounded-3xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Enviar mi reseña</span>
                 </button>
             </form>
         </div>
-    </div>
+    </section>
+
+    <!-- LISTA DE RESEÑAS -->
+    <section class="max-w-screen-2xl mx-auto px-6 md:px-10 py-12">
+        <h2 class="text-3xl font-bold mb-6">Reseñas de nuestros clientes</h2>
+        
+        <div id="reviews-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Las reseñas se agregan aquí con JavaScript -->
+        </div>
+    </section>
 
     <script>
         let currentRating = 5;
+        let adminMode = false;
 
-        function setupStars() {
-            const container = document.getElementById('star-rating');
-            container.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('i');
-                star.className = `fa-solid fa-star star ${i <= currentRating ? 'active' : 'text-zinc-600'}`;
-                star.dataset.value = i;
-                star.onclick = () => { 
-                    currentRating = i; 
-                    document.getElementById('rating').value = i;
-                    setupStars(); 
-                };
-                container.appendChild(star);
-            }
+        function setupStarRating() {
+            const stars = document.querySelectorAll('#star-rating .star');
+            const ratingInput = document.getElementById('rating');
+            const ratingText = document.getElementById('rating-text');
+
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    currentRating = parseInt(star.dataset.value);
+                    ratingInput.value = currentRating;
+                    updateStarDisplay(currentRating);
+                    const texts = ['', 'Muy malo', 'Malo', 'Regular', 'Bueno', 'Excelente'];
+                    ratingText.textContent = `${currentRating} estrellas - ${texts[currentRating]}`;
+                });
+
+                star.addEventListener('mouseover', () => {
+                    updateStarDisplay(parseInt(star.dataset.value), true);
+                });
+
+                star.addEventListener('mouseout', () => {
+                    updateStarDisplay(currentRating);
+                });
+            });
+
+            updateStarDisplay(5);
         }
 
-        window.onload = setupStars;
+        function updateStarDisplay(rating) {
+            const stars = document.querySelectorAll('#star-rating .star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active', 'text-orange-500');
+                    star.classList.remove('text-zinc-600');
+                } else {
+                    star.classList.remove('active', 'text-orange-500');
+                    star.classList.add('text-zinc-600');
+                }
+            });
+        }
+
+        function submitReview(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const opinion = document.getElementById('opinion').value.trim();
+            const rating = parseInt(document.getElementById('rating').value);
+
+            if (!name || !country || !opinion || opinion.length < 20) {
+                alert('Por favor completa todos los campos correctamente (mínimo 20 caracteres en la opinión).');
+                return;
+            }
+
+            const review = {
+                id: Date.now(),
+                name: name,
+                country: country,
+                opinion: opinion,
+                rating: rating,
+                date: new Date().toLocaleDateString('es-ES')
+            };
+
+            let reviews = JSON.parse(localStorage.getItem('admJackReviews') || '[]');
+            reviews.unshift(review);
+            localStorage.setItem('admJackReviews', JSON.stringify(reviews));
+
+            addReviewToDOM(review);
+            document.getElementById('review-form').reset();
+            currentRating = 5;
+            document.getElementById('rating').value = 5;
+            updateStarDisplay(5);
+            document.getElementById('rating-text').textContent = '5 estrellas - Excelente';
+
+            showSuccessMessage();
+        }
+
+        function addReviewToDOM(review) {
+            const container = document.getElementById('reviews-list');
+            const card = document.createElement('div');
+            card.className = `review-card bg-zinc-900 border border-zinc-700 rounded-3xl p-6 relative`;
+
+            let starsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHTML += (i <= review.rating) 
+                    ? `<i class="fa-solid fa-star text-orange-500"></i>` 
+                    : `<i class="fa-solid fa-star text-zinc-600"></i>`;
+            }
+
+            let deleteButtonHTML = '';
+            if (adminMode) {
+                deleteButtonHTML = `
+                    <button onclick="deleteReview(${review.id}); event.stopImmediatePropagation();" 
+                            class="absolute top-4 right-4 text-red-500 hover:text-red-600 p-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+            }
+
+            card.innerHTML = `
+                ${deleteButtonHTML}
+                <div class="flex items-center gap-x-1 mb-4">
+                    ${starsHTML}
+                </div>
+                <p class="text-zinc-300 mb-4">"${review.opinion}"</p>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="font-semibold">${review.name}</div>
+                        <div class="text-xs text-zinc-400">${review.country} • ${review.date}</div>
+                    </div>
+                </div>
+            `;
+            
+            container.prepend(card);
+        }
+
+        function loadReviews() {
+            const container = document.getElementById('reviews-list');
+            container.innerHTML = '';
+            
+            let reviews = JSON.parse(localStorage.getItem('admJackReviews') || '[]');
+            
+            if (reviews.length === 0) {
+                reviews = [
+                    { id: 1, name: "Carlos Mendoza", country: "Bolivia", opinion: "Los torneos son muy bien organizados y los premios llegan rápido. ¡Excelente experiencia!", rating: 5, date: "10/06/2026" },
+                    { id: 2, name: "Laura Vargas", country: "Bolivia", opinion: "Las recargas de diamantes son instantáneas. Muy confiable.", rating: 5, date: "08/06/2026" }
+                ];
+                localStorage.setItem('admJackReviews', JSON.stringify(reviews));
+            }
+
+            reviews.forEach(review => addReviewToDOM(review));
+        }
+
+        function deleteReview(id) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta reseña?')) return;
+            
+            let reviews = JSON.parse(localStorage.getItem('admJackReviews') || '[]');
+            reviews = reviews.filter(r => r.id !== id);
+            localStorage.setItem('admJackReviews', JSON.stringify(reviews));
+            loadReviews();
+        }
+
+        function toggleAdminMode() {
+            if (!adminMode) {
+                const password = prompt("Ingresa la contraseña de administrador:");
+                if (password !== "admjack2026") {
+                    alert("Contraseña incorrecta.");
+                    return;
+                }
+                adminMode = true;
+                const btn = document.getElementById('admin-btn');
+                btn.innerHTML = `<i class="fa-solid fa-user"></i> <span class="hidden md:inline">Salir Admin</span>`;
+                btn.classList.add('bg-zinc-900', 'border', 'border-zinc-700');
+                alert('✅ Modo Administrador activado. Ahora puedes eliminar reseñas.');
+            } else {
+                adminMode = false;
+                const btn = document.getElementById('admin-btn');
+                btn.innerHTML = `<i class="fa-solid fa-user"></i> <span class="hidden md:inline">Modo Admin</span>`;
+                btn.classList.remove('bg-zinc-900', 'border', 'border-zinc-700');
+            }
+            loadReviews();
+        }
+
+        function showSuccessMessage() {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'mt-4 p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-2xl text-center text-sm';
+            successDiv.innerHTML = `¡Gracias! Tu reseña se ha publicado correctamente.`;
+            document.getElementById('review-form').appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 4000);
+        }
+
+        function contactarWhatsApp() {
+            window.open(`https://wa.me/59163614354?text=Hola%20ADM%20Jack`, '_blank');
+        }
+
+        window.onload = () => {
+            setupStarRating();
+            loadReviews();
+        };
     </script>
+
+    <!-- Botón flotante Modo Admin -->
+    <button id="admin-btn" 
+            onclick="toggleAdminMode()"
+            class="fixed bottom-6 right-6 bg-zinc-900 hover:bg-zinc-800 text-white px-5 py-3 rounded-2xl flex items-center gap-x-2 text-sm font-medium shadow-2xl border border-zinc-700 z-[100]">
+        <i class="fa-solid fa-user"></i>
+        <span class="hidden md:inline">Modo Admin</span>
+    </button>
 </body>
 </html>

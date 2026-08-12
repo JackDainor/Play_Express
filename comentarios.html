@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deja tu reseña | ADM JACK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: linear-gradient(180deg, #0a0a0a, #1a1a2e);
+        }
+        
+        .brand-font {
+            font-family: 'Poppins', system_ui, sans-serif;
+            font-weight: 700;
+        }
+
+        .star {
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: #ff6b00;
+            transform: scale(1.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center">
+                    <i class="fa-solid fa-gamepad text-white text-2xl"></i>
+                </div>
+                <a href="adm-jack-home.html" class="brand-font text-3xl font-bold tracking-tighter">ADM JACK</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-2xl mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4">¿Qué tal tu experiencia?</h1>
+            <p class="text-zinc-400 text-lg">Tu opinión nos ayuda a mejorar cada día</p>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10">
+            <form id="review-form" action="https://formspree.io/f/meewnwbz" method="POST">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm mb-2">Tu nombre</label>
+                        <input type="text" name="nombre" required class="w-full bg-zinc-800 border border-zinc-600 rounded-2xl px-5 py-4 focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2">País</label>
+                        <input type="text" name="pais" required class="w-full bg-zinc-800 border border-zinc-600 rounded-2xl px-5 py-4 focus:border-orange-500">
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <label class="block text-sm mb-3">Calificación</label>
+                    <div class="flex justify-center gap-3" id="star-rating"></div>
+                    <input type="hidden" name="calificacion" id="rating" value="5">
+                </div>
+
+                <div class="mt-8">
+                    <label class="block text-sm mb-2">Tu opinión</label>
+                    <textarea name="opinion" rows="5" required class="w-full bg-zinc-800 border border-zinc-600 rounded-3xl px-5 py-4 focus:border-orange-500"></textarea>
+                </div>
+
+                <button type="submit" class="mt-8 w-full py-5 bg-gradient-to-r from-orange-500 to-red-600 font-bold text-xl rounded-3xl hover:scale-105 transition-all">
+                    Enviar mi reseña
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentRating = 5;
+
+        function setupStars() {
+            const container = document.getElementById('star-rating');
+            container.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.className = `fa-solid fa-star star ${i <= currentRating ? 'active' : 'text-zinc-600'}`;
+                star.dataset.value = i;
+                star.onclick = () => { 
+                    currentRating = i; 
+                    document.getElementById('rating').value = i;
+                    setupStars(); 
+                };
+                container.appendChild(star);
+            }
+        }
+
+        window.onload = setupStars;
+    </script>
+</body>
+</html>
